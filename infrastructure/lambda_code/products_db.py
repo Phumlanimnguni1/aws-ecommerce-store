@@ -114,3 +114,8 @@ def update_product_with_version(product_id, fields, expected_version, user_arn=N
         if e.response['Error']['Code'] == 'ConditionalCheckFailedException':
             raise ValueError(f"Product was modified by another user. Please refresh and try again.")
         raise
+    
+def get_product(product_id):
+    """Retrieve a single product by its ID from DynamoDB."""
+    response = table.get_item(Key={'id': product_id})
+    return response.get('Item')

@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Globals:
+  Function:
+    Timeout: 30
+    Runtime: python3.12
+    Environment:
+      Variables:
+        PRODUCTS_TABLE: Products
+Resources:
+  GetProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: GetProductFunction
+      Handler: get_product.lambda_handler
+      Events:
+        GetProduct:
+          Type: Api
+          Properties:
+            Path: /products/{id}
+            Method: get
+    Metadata:
+      SamResourceId: GetProductFunction
+  CreateProductFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: CreateProductFunction
+      Handler: create_product.lambda_handler
+      Events:
+        CreateProduct:
+          Type: Api
+          Properties:
+            Path: /products
+            Method: post
+    Metadata:
+      SamResourceId: CreateProductFunction
